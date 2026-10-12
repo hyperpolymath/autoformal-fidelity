@@ -1,0 +1,4 @@
+name: autoformal-fidelity
+include: src
+depend: resource-algebra
+flags: --safe --without-K

@@ -1,0 +1,57 @@
+// SPDX-License-Identifier: CC-BY-SA-4.0
+= autoformal-fidelity — pre-registration (2026-10-12)
+
+An *application* of the type family, not a family. Question: can the
+family give a disciplined view on whether a formal artefact F says what
+its informal source S says (the autoformalisation fidelity problem)?
+
+== Honest limit, stated first
+
+Semantic fidelity is not decidable in general. The claim here is narrower:
+the *structure* of an unfaithful crossing can be made unconstructible, and
+the residue of belief can be made honest about being belief.
+
+== Delivered (src/Fidelity/Crossing.agda; Agda --safe --without-K; resource-algebra sibling)
+
+[cols="1,3,1",options="header"]
+|===
+| ID | Claim | Status
+| F-1 | A passing round trip (`back ∘ fwd ≡ id`) rules out collapses: `fwd` is injective, no two source elements are conflated | PROVEN (`roundtrip-injective`, `roundtrip-no-collapse`)
+| F-2 | *Round trip is blind to additions*: a crossing can round-trip perfectly while the artefact contains an element with no fibre | TESTED (`blindspot`, `blindspot-roundtrips`, `blindspot-adds`); the translator's fallacy is refused (`tests/reject/RoundTripIsFidelity`: `fwd c (back c y) != y`)
+| F-3 | Round trip plus coverage (every target element has a fibre) is a bijection | PROVEN (`faithful-back`)
+| F-4 | Two standpoints over worlds carrying a source reading: the source side always sees at least what the target sees (translation can only conflate); the target sees at least what the source sees exactly when the round trip passes. Fidelity in the loss direction *is* mutual access (choreographic-types `Transport._⊑_`) | PROVEN (`Standpoints`)
+|===
+
+== Pre-registered next statements (each with its falsifier)
+
+. *Additions need the target standpoint.* Extend `Standpoints` so the
+  target reading may take values outside the image of `fwd`; show
+  additions are exactly the worlds the source side cannot distinguish
+  from each other but the target can. Falsifier: an addition visible from
+  the source standpoint.
+. *Stage accounting is K-CUT-LOSS.* A pipeline of crossings graded in
+  resource-algebra's `Loss` (`keep`/`residue`/`forget` per element) and
+  cut at successive points; the loss accounted on the whole pipeline
+  restricted to a standpoint equals the loss read locally up to the
+  projected cut. Falsifier: a per-stage audit whose sum disagrees with
+  the global accounting.
+. *Verdicts are warrants, not knowledge.* The fidelity verdict as an
+  epistemic-types `Warrant`; the structural checks (F-1..F-3) are its
+  type-determined, sound part; "this statement means that claim" has no
+  `sound` field. Falsifier: a structural check that admits an unfaithful
+  crossing.
+. *Provenance by dependence.* Each verdict names the source passages it
+  rests on (residual-evidence `Dependent`); an erratum retracts exactly
+  the verdicts resting on it. Falsifier: a verdict unaffected by
+  retracting its own support.
+. *Multiple provers.* Two formalisations as two target standpoints;
+  agreement is identical partitions; convergence is evidence only under
+  independence — stated, not certified.
+
+== Relation to the estate
+
+* Round trip = injectivity, additions = empty fibres: the same notion the
+  Harvard dehallucinator is built around (an output with no fibre in the
+  evidence).
+* First application to draw on four families at once (echo loss,
+  epistemic warrant, residual dependence, choreographic cut).

@@ -692,3 +692,7 @@ uncloak:
     else
         echo "Use 'ls -a' to view dotfiles on this OS."
     fi
+
+# Agda proofs and expected rejections (autoformal-fidelity)
+check-agda:
+    bash scripts/fetch-siblings.sh && bash scripts/check-agda.sh

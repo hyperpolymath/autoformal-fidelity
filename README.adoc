@@ -1,7 +1,27 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 // SPDX-FileCopyrightText: 2024-2026 Jonathan D.A. Jewell (hyperpolymath)
-= {{PROJECT_NAME}}
+= autoformal-fidelity — fidelity of a source → formal crossing, in fibre terms
+:toc: left
+
+An *application* of the type family to the autoformalisation fidelity
+problem: does a formal artefact F say what its informal source S says?
+In fibre terms, with four theorems in `src/Fidelity/Crossing.agda`:
+
+* a passing round trip (`back ∘ fwd ≡ id`) rules out collapses (`fwd` injective);
+* round trip is *blind to additions* — computed phantom witness, and the
+  translator's fallacy refused in `tests/reject/`;
+* round trip plus coverage (every target element has a fibre) is a bijection;
+* fidelity in the loss direction is mutual access between the source and
+  target standpoints.
+
+Honest limit, first: semantic fidelity is not decidable; the structure of an
+unfaithful crossing is what becomes unconstructible. Pre-registered next
+statements with falsifiers: link:docs/pre-registration.adoc[]. Sibling:
+hyperpolymath/resource-algebra (Agda, same kernel; pin in `scripts/fetch-siblings.sh`).
+Gate: `bash scripts/check-agda.sh`.
+
+// ---- RSR template sections below; swept by `just repo-init` ----
 :toc:
 :toc-placement: preamble
 
