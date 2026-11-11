@@ -38,6 +38,7 @@ CLAUDE.md                  # generated arrival pack; the generator, pre-commit a
 Justfile                   # thin; delegates phases to build/just/*.just
 launcher.sh                # --setup/--doctor/--heal/--ai-setup (launcher-standard 0.6.0); the one file a newcomer runs first
 coordination.k9.ncl        # repo-local session binding (template-mandated)
+autoformal-fidelity.agda-lib # Agda library file for src/; Agda finds it by searching upward from the sources, and the project root is its conventional place
 
 # ─── Conventional dotfiles (tool-required at root) ───────────────────────────
 .editorconfig
