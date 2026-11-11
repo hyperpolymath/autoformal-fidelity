@@ -121,6 +121,10 @@ predecessors did.
 | optional
 | template-only variation seam (ADR-0003); `just repo-init` removes it from minted repos
 
+| `autoformal-fidelity.agda-lib`
+| yes
+| Agda library file for src/; Agda finds it by searching upward from the sources, and the project root is its conventional place
+
 | `benches/`
 | optional
 | Cargo-conventional at package root
