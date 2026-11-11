@@ -99,7 +99,7 @@
   (lineage
     :type standalone
     :parent ""
-    :born "2026-11-11"
+    :born "2026-10-12"
     :previous-names ()
     :instantiated-from "rsr-template-repo")
   ; :phase is one of reserved incubating active dormant merged superseded
@@ -1064,7 +1064,7 @@
     :last-updated "2026-11-11"
     :parent "hyperpolymath/rsr-template-repo"
     ; template tip at mint
-    :parent-pin "fd3273e06b435bfa7f949541dfe62370821241c1"
+    :parent-pin "UNASSIGNED"
     :role "minted-repo"
     :stack "unspecified"
     :direction "generated-from-core"
@@ -1080,9 +1080,9 @@
   (provenance
     :minted-at "2026-11-11"
     :template-repo "hyperpolymath/rsr-template-repo"
-    :template-branch "marina/youthful-hawking-d25n5y"
-    :template-commit "fd3273e06b435bfa7f949541dfe62370821241c1"
-    :template-tree "35312b538e86d12e6c963aa6519826db86d11343"
+    :template-branch "UNASSIGNED"
+    :template-commit "UNASSIGNED"
+    :template-tree "UNASSIGNED"
     ; Contract: branches this repo is EXPECTED to carry beyond the default.
     ; Empty means default-only. A mint must never inherit template work
     ; branches (coderabbit/, chore/, bot-task or stale branches) — that is

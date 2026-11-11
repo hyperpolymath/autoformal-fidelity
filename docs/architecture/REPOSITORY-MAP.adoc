@@ -117,13 +117,13 @@ predecessors did.
 | yes
 | -
 
-| `archetypes/`
-| optional
-| template-only variation seam (ADR-0003); `just repo-init` removes it from minted repos
-
 | `autoformal-fidelity.agda-lib`
 | yes
 | Agda library file for src/; Agda finds it by searching upward from the sources, and the project root is its conventional place
+
+| `autoformal-fidelity_chora.deed`
+| yes
+| the repo deed: universal AI entry point; family-7 allocation manifest + ply tree folded in (standards#837 pilot). Filename carries the repo slug (deed dispatch <stem>_chora.deed), so repo-init renames it at mint
 
 | `benches/`
 | optional
@@ -164,10 +164,6 @@ predecessors did.
 | `mise.toml`
 | yes
 | the toolchain: every tool at latest (PROVISIONING-STANDARD §4)
-
-| `autoformal-fidelity_chora.deed`
-| yes
-| the repo deed: universal AI entry point; family-7 allocation manifest + ply tree folded in (standards#837 pilot). Filename carries the repo slug (deed dispatch <stem>_chora.deed), so repo-init renames it at mint
 
 | `scripts/`
 | yes
