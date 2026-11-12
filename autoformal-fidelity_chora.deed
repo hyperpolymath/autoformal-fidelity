@@ -83,13 +83,13 @@
   (identity
     :primary-forge github
     :owner "hyperpolymath"
-    :prefixed-name "UNASSIGNED-autoformal-fidelity")
+    :prefixed-name "fv-autoformal-fidelity")
   (clade
-    :primary UNASSIGNED
-    :primary-name "UNASSIGNED"
+    :primary fv
+    :primary-name "Formal Verification & Proofs"
     :secondary ()
-    :assigned "2026-11-11"
-    :rationale "")
+    :assigned "2026-11-12"
+    :rationale "Formal Verification & Proofs (`fv`), the same clade as the sibling resource-algebra. The core value is checked correctness: Agda (--safe --without-K) theorems about the fidelity of an informal-to-formal crossing. The clade is a finding aid for people who look for repos by subject, not identity (standards CHORA-SPEC section 11, owner ruling R4); chosen on the advice of the Repository SysArch thread, 2026-11-12.")
   (forges
     :github "hyperpolymath/autoformal-fidelity")
   ; :type is one of standalone monorepo monorepo-child inflated deflated hub
