@@ -127,8 +127,12 @@
     :project "autoformal-fidelity"
     :ecosystem "hyperpolymath"
     :position-type "UNASSIGNED"
-    :purpose "UNASSIGNED"
-    :not ()
+    :purpose "Application of the hyperpolymath type family to autoformalisation fidelity: Agda (--safe --without-K) proofs that a passing round trip rules out collapses but is blind to additions, that round trip plus coverage is a bijection, and that fidelity in the loss direction is mutual access between the source and target standpoints."
+    :not ("a type family in its own right: it applies the family (docs/pre-registration.adoc)"
+          "a decision procedure for semantic fidelity, which is not decidable; it makes the structure of an unfaithful crossing unconstructible"
+          "an autoformaliser, prover or translator: it produces no formal artefacts"
+          "resource-algebra, whose Prelude it imports"
+          "a repository template")
     :coordination standards
     (related :name "rsr-template-repo" :relationship minted-from :notes "the template this repo was minted from by just repo-init"))
   ; <<< repo-identity
