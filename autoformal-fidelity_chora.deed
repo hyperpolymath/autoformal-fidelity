@@ -126,7 +126,7 @@
   (ecosystem
     :project "autoformal-fidelity"
     :ecosystem "hyperpolymath"
-    :position-type "UNASSIGNED"
+    :position-type "library"
     :purpose "Application of the hyperpolymath type family to autoformalisation fidelity: Agda (--safe --without-K) proofs that a passing round trip rules out collapses but is blind to additions, that round trip plus coverage is a bijection, and that fidelity in the loss direction is mutual access between the source and target standpoints."
     :not ("a type family in its own right: it applies the family (docs/pre-registration.adoc)"
           "a decision procedure for semantic fidelity, which is not decidable; it makes the structure of an unfaithful crossing unconstructible"
@@ -351,9 +351,9 @@
     (identity
       :project "autoformal-fidelity"
       ; language | library | service | tool
-      :kind "UNASSIGNED"
+      :kind "library"
       :one-sentence "Fidelity of a source → formal crossing, in fibre terms"
-      :domain "UNASSIGNED")
+      :domain "formal-methods")
     (semantic-authority
       :policy "canonical"
       :owns (
