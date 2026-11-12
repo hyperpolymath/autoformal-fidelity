@@ -67,11 +67,6 @@ invariant-path *ARGS:
 
 import? "build/just/repo-init.just"
 
-# >>> container-module (three-tier: OCI · portable engine · stapeln) >>>
-# Self-contained. Remove the entire block — this and the import — with `just no-container`.
-import? "build/just/container.just"
-# <<< container-module <<<
-
 # ═══════════════════════════════════════════════════════════════════════════════
 # GROOVE PROTOCOL — see build/just/groove.just
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -420,18 +415,6 @@ state-phase:
     echo "maturity: $(bash scripts/deed-field.sh "$DEED" maturity level || echo unknown)"
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# GUIX
-# ═══════════════════════════════════════════════════════════════════════════════
-
-# Enter Guix development shell (primary)
-guix-shell:
-    guix shell -D -f build/guix.scm
-
-# Build with Guix
-guix-build:
-    guix build -f build/guix.scm
-
-# ═══════════════════════════════════════════════════════════════════════════════
 # HYBRID AUTOMATION
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -467,7 +450,6 @@ combinations:
     @echo ""
     @echo "Build Matrix: just build-matrix [debug|release] [target] [features]"
     @echo "Test Matrix:  just test-matrix [unit|integration|e2e|all] [verbosity] [parallel]"
-    @echo "Container:    just container-matrix [build|run|push|shell|scan] [registry] [tag]  (needs container module)"
     @echo "CI Matrix:    just ci-matrix [lint|test|build|security|all] [quick|full]"
 
 # ═══════════════════════════════════════════════════════════════════════════════

@@ -83,13 +83,13 @@
   (identity
     :primary-forge github
     :owner "hyperpolymath"
-    :prefixed-name "UNASSIGNED-autoformal-fidelity")
+    :prefixed-name "fv-autoformal-fidelity")
   (clade
-    :primary UNASSIGNED
-    :primary-name "UNASSIGNED"
+    :primary fv
+    :primary-name "Formal Verification & Proofs"
     :secondary ()
-    :assigned "2026-11-11"
-    :rationale "")
+    :assigned "2026-11-12"
+    :rationale "Formal Verification & Proofs (`fv`), the same clade as the sibling resource-algebra. The core value is checked correctness: Agda (--safe --without-K) theorems about the fidelity of an informal-to-formal crossing. The clade is a finding aid for people who look for repos by subject, not identity (standards CHORA-SPEC section 11, owner ruling R4); chosen on the advice of the Repository SysArch thread, 2026-11-12.")
   (forges
     :github "hyperpolymath/autoformal-fidelity")
   ; :type is one of standalone monorepo monorepo-child inflated deflated hub
@@ -126,9 +126,13 @@
   (ecosystem
     :project "autoformal-fidelity"
     :ecosystem "hyperpolymath"
-    :position-type "UNASSIGNED"
-    :purpose "UNASSIGNED"
-    :not ()
+    :position-type "library"
+    :purpose "Application of the hyperpolymath type family to autoformalisation fidelity: Agda (--safe --without-K) proofs that a passing round trip rules out collapses but is blind to additions, that round trip plus coverage is a bijection, and that fidelity in the loss direction is mutual access between the source and target standpoints."
+    :not ("a type family in its own right: it applies the family (docs/pre-registration.adoc)"
+          "a decision procedure for semantic fidelity, which is not decidable; it makes the structure of an unfaithful crossing unconstructible"
+          "an autoformaliser, prover or translator: it produces no formal artefacts"
+          "resource-algebra, whose Prelude it imports"
+          "a repository template")
     :coordination standards
     (related :name "rsr-template-repo" :relationship minted-from :notes "the template this repo was minted from by just repo-init"))
   ; <<< repo-identity
@@ -223,21 +227,6 @@
         (directory :id "automation-unit-forge" :ply 3 :path ".machine_readable/scripts/forge" :description "Internal automation logic for project forge.")
         (directory :id "automation-unit-lifecycle" :ply 3 :path ".machine_readable/scripts/lifecycle" :description "Internal automation logic for project lifecycle.")
         (directory :id "automation-unit-verification" :ply 3 :path ".machine_readable/scripts/verification" :description "Internal automation logic for project verification.")))
-    (directory :id "container-templates" :ply 1 :path "build/container" :version "1.0.0" :description "Container templates for the stapeln container ecosystem. This directory\nprovides Podman-Chainguard-stapeln templates that are customised via\n`just container-init` or `just repo-init` during project bootstrap.\n\nAll files use {{PLACEHOLDER}} tokens that are substituted with project-\nspecific values during initialisation." :purpose "Provide a complete, security-first container deployment story for any\nRSR-compliant repository. The templates cover the full lifecycle:\nbuild, sign, verify, deploy, monitor, and govern." :overview "The stapeln container ecosystem comprises six tools:\n\nselur       — Container orchestration with zero-copy IPC. Reads compose.toml.\ncerro-torre — Verified container packaging (.ctp bundles), Ed25519 signing.\nsvalinn     — Policy-driven edge gateway (auth, rate limits, CORS, trust).\nvordr       — Runtime monitoring (health, crashes, resources, logs).\nrokur       — Secrets management (runtime injection, no baked secrets).\nk9-svc      — Nickel deployment components (Kennel/Yard/Hunt trust levels)."
-      :context ("https://stapeln.dev/ns/v1")
-      (canonical-locations :build_pipeline "build/container/stapeln/ct-build.sh" :compose "build/container/stapeln/compose.toml" :compose_example "build/container/stapeln/compose.example.toml" :compose_portable "build/container/compose.yaml" :compose_portable_example "build/container/compose.example.yaml" :containerfile "build/container/Containerfile" :containerignore "build/container/.containerignore" :deployment "build/container/stapeln/deploy.k9.ncl" :entrypoint "build/container/entrypoint.sh" :gatekeeper "build/container/stapeln/.gatekeeper.yaml" :just_module "build/just/container.just" :manifest "build/container/stapeln/manifest.toml" :monitoring "build/container/stapeln/vordr.toml" :secrets_gate "build/container/stapeln/rokur.toml")
-      :invariants ("Base images MUST be cgr.dev/chainguard/wolfi-base or cgr.dev/chainguard/static" "Container runtime is Podman — never Docker" "Containerfile — never Dockerfile" "All images run as non-root (appuser or project-specific user)" ".ctp bundles are signed with Ed25519 via cerro-torre" "Health endpoints (/health, /ready) must always be public (no auth)")
-      (file-relationships
-        (file :name "compose.toml" :role "Orchestration" :description "selur-compose stack definition. Declares services, volumes, networks,\nand health checks. References the Containerfile for image builds and\n.gatekeeper.yaml for svalinn policy." :depends-on ("Containerfile" ".gatekeeper.yaml"))
-        (file :name "Containerfile" :role "Image Build (Tier A)" :description "Multi-stage OCI container build. Stage 1 compiles the application on\nwolfi-base; Stage 2 copies the binary into a minimal runtime image and\ncopies entrypoint.sh. Engine-agnostic (podman/nerdctl/docker). The\nstapeln files (.gatekeeper.yaml, manifest.toml) are referenced only as\nOCI labels and copied in only if you uncomment those COPY lines, so the\nimage has no hard dependency on tier C." :depends-on ("entrypoint.sh"))
-        (file :name "manifest.toml" :role "Bundle Metadata" :description "Cerro-torre .ctp bundle manifest. Describes provenance, dependencies,\nattestations, and runtime security profile. Used by `ct pack` and\n`ct verify`." :depends-on ())
-        (file :name ".gatekeeper.yaml" :role "Gateway Policy" :description "Svalinn edge gateway policy. Controls authentication, rate limiting,\ncontainer trust, request validation, CORS, and audit logging." :depends-on ())
-        (file :name "ct-build.sh" :role "Build Pipeline" :description "Shell script implementing the 5-stage pipeline: build (Podman),\npack (cerro-torre .ctp), sign (Ed25519), verify, push (optional).\nDegrades gracefully when cerro-torre tools are not installed." :depends-on ("Containerfile" "manifest.toml"))
-        (file :name "entrypoint.sh" :role "Container Entrypoint" :description "Startup script with signal handling (SIGTERM, SIGINT), logging, and\nexec into the main application process." :depends-on ())
-        (file :name "vordr.toml" :role "Runtime Monitoring" :description "Vordr monitoring configuration. Health endpoint probing, crash\ndetection, resource thresholds, and structured log output." :depends-on ())
-        (file :name "deploy.k9.ncl" :role "Deployment Component" :description "k9-svc deployment specification at Hunt trust level. Full pedigree\n(L1-L5), environment configs, container config, and rolling\ndeployment strategy." :depends-on ("compose.toml" "ct-build.sh"))
-        (file :name "compose.example.toml" :role "Example" :description "Fully-commented multi-service example (Rust API + Elixir worker +\nsvalinn gateway). Copy to compose.toml and customise." :depends-on ())
-      ))
     (directory :id "docs-pillar" :ply 1 :path "docs" :description "Technical documentation hub. The root contains high-level orientation\n(README, Quickstart, State-Visualizer). Specialized tracks live in\nsubdirectories."
       (canonical-locations :architecture "architecture/" :attribution "attribution/" :decisions "decisions/" :developer "developer/" :governance "governance/" :legal "legal/" :practice "practice/" :quickstart "QUICKSTART.adoc" :reports "reports/" :standards "standards/" :state_visualizer "STATE-VISUALIZER.adoc" :theory "theory/" :whitepapers "whitepapers/" :wikis "wikis/")
       :invariants ("Primary documentation format MUST be AsciiDoc (.adoc)" "Root docs/ MUST only contain pillar entry points")
@@ -308,16 +297,7 @@
       (directory :id "source-unit-contracts" :ply 2 :path "src/contracts" :description "Contracts unit for high-rigor source code.")
       (directory :id "source-unit-core" :ply 2 :path "src/core" :description "Primary application logic and core domain models.")
       (directory :id "source-unit-definitions" :ply 2 :path "src/definitions" :description "Definitions unit for high-rigor source code.")
-      (directory :id "source-unit-errors" :ply 2 :path "src/errors" :description "Errors unit for high-rigor source code.")
-      (directory :id "interface-seams-unit" :ply 2 :path "src/interface" :description "Consolidated \"Verified Interface Seams\" unit. This directory unifies the\nformal specification (ABI), the bridge implementation (FFI), and the\nresulting artifacts (Generated)."
-        (canonical-locations :abi "abi/" :ffi "ffi/" :generated "generated/")
-        :invariants ("ABI MUST be Idris2 (.idr)" "FFI MUST be Zig (.zig)" "Generated artifacts MUST be C-compatible" "The 'Truth' lives in abi/; the 'Implementation' lives in ffi/")
-        (directory :id "abi-logic" :ply 3 :path "src/interface/Abi" :description "Specialised Level 3 logic for abi.")
-        (directory :id "ffi-logic" :ply 3 :path "src/interface/ffi" :description "Specialised Level 3 logic for ffi."
-          (directory :id "src-unit" :ply 4 :path "src/interface/ffi/src" :description "Src logic at level 4.")
-          (directory :id "test-unit" :ply 4 :path "src/interface/ffi/test" :description "Test logic at level 4."))
-        (directory :id "generated-logic" :ply 3 :path "src/interface/generated" :description "Specialised Level 3 logic for generated."
-          (directory :id "abi-unit" :ply 4 :path "src/interface/generated/abi" :description "Abi logic at level 4."))))
+      (directory :id "source-unit-errors" :ply 2 :path "src/errors" :description "Errors unit for high-rigor source code."))
     (directory :id "verification-pillar" :ply 1 :path "verification" :description "Primary verification pillar. Contains evidence for correctness,\nperformance, formal proofs, randomized testing, and aerospace-grade\nhigh-assurance metrics (MC/DC coverage, traceability, safety cases)."
       (canonical-locations :benchmarks "benchmarks/" :coverage "coverage/" :fuzzing "fuzzing/" :proofs "proofs/" :safety_case "safety_case/" :simulations "simulations/" :tests "tests/" :traceability "traceability/")
       :invariants ("Evidence MUST be reproducible and documented" "High-assurance deployments MUST satisfy traceability and safety_case requirements")
@@ -347,9 +327,9 @@
     (identity
       :project "autoformal-fidelity"
       ; language | library | service | tool
-      :kind "UNASSIGNED"
+      :kind "library"
       :one-sentence "Fidelity of a source → formal crossing, in fibre terms"
-      :domain "UNASSIGNED")
+      :domain "formal-methods")
     (semantic-authority
       :policy "canonical"
       :owns (
@@ -548,7 +528,7 @@
         ; What makes this project special. Agents should DEEPEN this, not broaden it.
         ; Customise this per project — the template default is generic.
         (unique-strength
-          :description "UNASSIGNED"
+          :description "Checked limits of the round-trip test for autoformalisation fidelity: a computed witness that a passing round trip misses additions, a checked rejection of the claim that round trip implies coverage (tests/reject), and five pre-registered next claims, four of them with a falsifier."
           :deepen-not-broaden #t)
         ; ============================================================================
         ; DIVERGENT INVARIANTS
@@ -1048,9 +1028,15 @@
     :version "1.0.0"
     :spec "rsr-criteria-v2"
     :declares-against "2.1.1-draft"
-    ; UNASSIGNED: declare capabilities (or a preset) — see standards
-    ; .machine_readable/template-capability-gates.toml
-    :capabilities ())
+    ; Chosen by the owner 2026-11-12: the canon's formal-proof-lib preset
+    ; (formal-proofs, library) plus agda. The tree is an Agda library
+    ; (autoformal-fidelity.agda-lib) of --safe --without-K proofs.
+    ; governance-tier added by the owner the same day: the Must contract
+    ; (governance-docs, critical) requires docs/GOVERNANCE.adoc and
+    ; docs/MAINTAINERS.adoc, so the four governance-tier docs stay. The other
+    ; unused template modules (Rust CI, the Idris2/Zig ABI-FFI stubs,
+    ; build/container, the Guix files, benches, release.yml) were removed.
+    :capabilities ("agda" "formal-proofs" "library" "governance-tier"))
   ; variant — provenance contract (ADR-0002 shape; ADR-0003 use).
   ; Records what this repo was minted from so the drift gate
   ; (scripts/check-variant-drift.sh <parent-checkout>) and future
