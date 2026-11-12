@@ -13,8 +13,6 @@ workflows:
         - 'hyperpolymath/deed-ecosystem@main'
     '.github/workflows/dependabot-automerge.yml':
         - 'dependabot/fetch-metadata@v3.1.0'
-    '.github/workflows/docker-build.yml':
-        - 'actions/checkout@v7.0.1'
     '.github/workflows/dogfood-gate.yml':
         - 'actions/checkout@v7.0.1'
         - 'erlef/setup-beam@v1.24.1'
@@ -68,17 +66,10 @@ workflows:
     '.github/workflows/quality.yml':
         - 'actions/checkout@v7.0.1'
         - 'editorconfig-checker/action-editorconfig-checker@v3.0.0'
-    '.github/workflows/release.yml':
-        - 'actions/attest-build-provenance@v4.2.2'
-        - 'actions/checkout@v7.0.1'
-        - 'actions/upload-artifact@v7.0.2'
-        - 'softprops/action-gh-release@v3.0.4'
     '.github/workflows/rsr-compliance-canary.yml':
         - 'actions/checkout@v7.0.1'
     '.github/workflows/runtime-policy.yml':
         - 'actions/checkout@v7.0.1'
-    '.github/workflows/rust-ci.yml':
-        - 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1'
     '.github/workflows/scorecard.yml':
         - 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1'
         - 'github/codeql-action@9b3254085494b55a0f7c4c2b3d2d52cc712ce370'
@@ -99,18 +90,6 @@ workflows:
         - 'actions/checkout@v7.0.1'
         - 'oven-sh/setup-bun@v2.2.0'
 dependencies:
-    'actions/attest-build-provenance@v4.2.2':
-        ref: 'v4.2.2'
-        commit: 'sha1-4d101475d8b20a2381f78447822ac1eab6504dd8'
-        owner_id: 44036562
-        repo_id: 760702757
-        uses:
-            - 'actions/attest@508db95dd578ae2727ebd6217d5ba78e4fbda05d'
-    'actions/attest@508db95dd578ae2727ebd6217d5ba78e4fbda05d':
-        ref: 'v4.2.1'
-        commit: 'sha1-508db95dd578ae2727ebd6217d5ba78e4fbda05d'
-        owner_id: 44036562
-        repo_id: 760701061
     'actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9':
         ref: 'v6.1.0'
         commit: 'sha1-55cc8345863c7cc4c66a329aec7e433d2d1c52a9'
@@ -241,11 +220,6 @@ dependencies:
         commit: 'sha1-0c5077e51419868618aeaa5fe8019c62421857d6'
         owner_id: 108928776
         repo_id: 512644635
-    'softprops/action-gh-release@v3.0.4':
-        ref: 'v3.0.4'
-        commit: 'sha1-8a0cd651e5b2365bd640854a3fa5dfc70e4875f3'
-        owner_id: 2242
-        repo_id: 204253808
     'sonarsource/sonarqube-scan-action@v8.4.1':
         ref: 'v8.4.1'
         commit: 'sha1-e805d875275f728fac1885b413934be6d7c63f65'
