@@ -552,7 +552,7 @@
         ; What makes this project special. Agents should DEEPEN this, not broaden it.
         ; Customise this per project — the template default is generic.
         (unique-strength
-          :description "UNASSIGNED"
+          :description "Checked limits of the round-trip test for autoformalisation fidelity: a computed witness that a passing round trip misses additions, a checked rejection of the claim that round trip implies coverage (tests/reject), and five pre-registered next claims, four of them with a falsifier."
           :deepen-not-broaden #t)
         ; ============================================================================
         ; DIVERGENT INVARIANTS
