@@ -125,11 +125,14 @@ clean-all: clean
 # TEST & QUALITY
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# Run every detected language's tests: `zig build test` covers src/interface/ffi
-# (unit tests in src/main.zig, test/integration_test.zig). It compiles only after
-# `just repo-init` has filled the template tokens, so an un-initialised template
-# fails here loudly instead of reporting a pass over nothing.
-test: provision::test
+# Run the Agda proofs, exactly as CI does (.github/workflows/proofs.yml): fetch
+# resource-algebra at its pinned commit, then check src/Fidelity with
+# --safe --without-K and confirm every tests/reject module is refused.
+# The template's language detection does not know Agda, so this body replaces
+# the provision::test delegation. CI pins Agda 2.6.4.3; set AGDA to choose a binary.
+test:
+    bash scripts/fetch-siblings.sh
+    bash scripts/check-agda.sh
 
 # Run tests with verbose output
 test-verbose: provision::test
