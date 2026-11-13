@@ -47,7 +47,7 @@ workflows:
     '.github/workflows/labels.yml': []
     '.github/workflows/lock-sync-gate.yml': []
     '.github/workflows/main-estate-audit.yml':
-        - 'hyperpolymath/cicd-suite@55556cf5ba71ba744695861503c13148d3915a5d'
+        - 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1'
     '.github/workflows/mirror.yml':
         - 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1'
     '.github/workflows/ossf-best-practices.yml':
@@ -64,8 +64,8 @@ workflows:
     '.github/workflows/push-email-notify.yml':
         - 'hyperpolymath/smtp-notify-action@v0.5.1'
     '.github/workflows/quality.yml':
-        - 'actions/checkout@v7.0.1'
-        - 'editorconfig-checker/action-editorconfig-checker@v3.0.0'
+        - 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1'
+        - 'editorconfig-checker/action-editorconfig-checker@51f63319f592f97930c73d9c46184d20bd206393'
     '.github/workflows/rsr-compliance-canary.yml':
         - 'actions/checkout@v7.0.1'
     '.github/workflows/runtime-policy.yml':
@@ -152,7 +152,7 @@ dependencies:
         commit: 'sha1-25dd0e34f4fe68f24cc83900b1fe3fe149efef98'
         owner_id: 27347476
         repo_id: 371068214
-    'editorconfig-checker/action-editorconfig-checker@v3.0.0':
+    'editorconfig-checker/action-editorconfig-checker@51f63319f592f97930c73d9c46184d20bd206393':
         ref: 'v3.0.0'
         commit: 'sha1-51f63319f592f97930c73d9c46184d20bd206393'
         owner_id: 26415196
@@ -182,19 +182,6 @@ dependencies:
         commit: 'sha1-0f8e8c99d88aeb3fbfd523f1ef2c6f762d10d64d'
         owner_id: 75048950
         repo_id: 623796603
-    'hyperpolymath/cicd-suite@0da816c05ae7486671d863e07935f93981c0c2d5':
-        ref: '0da816c05ae7486671d863e07935f93981c0c2d5'
-        commit: 'sha1-0da816c05ae7486671d863e07935f93981c0c2d5'
-        owner_id: 6759885
-        repo_id: 1326697643
-    'hyperpolymath/cicd-suite@55556cf5ba71ba744695861503c13148d3915a5d':
-        ref: '55556cf5ba71ba744695861503c13148d3915a5d'
-        commit: 'sha1-55556cf5ba71ba744695861503c13148d3915a5d'
-        owner_id: 6759885
-        repo_id: 1326697643
-        uses:
-            - 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1'
-            - 'hyperpolymath/cicd-suite@0da816c05ae7486671d863e07935f93981c0c2d5'
     'hyperpolymath/deed-ecosystem@main':
         ref: 'main'
         commit: 'sha1-44f9c9fc42901a55e0f489a40eabf4173e550d1d'
