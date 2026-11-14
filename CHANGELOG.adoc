@@ -8,6 +8,14 @@ https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 === [Unreleased]
 
+==== Changed
+
+* Follow the 2026-10-14 JS runtime ruling in the gates and tooling, not only
+  the prose: `runtime-policy.yml` treats `bun.lock`, `deno.lock` and
+  `pnpm-lock.yaml` as one dependency graph (a `package-lock.json` beside them
+  still fails), and the provisioning engine is re-synced to 0.6.0, so Deno and
+  pnpm are no longer banned tools. Ported from rsr-template-repo#239.
+
 ==== Added
 
 * `www/` site-operations bundle (issue #53): canonical `.well-known/`
