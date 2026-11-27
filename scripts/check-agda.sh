@@ -8,7 +8,7 @@ prover="${AGDA:-agda}"
 "$prover" --version
 ra="${RESOURCE_ALGEBRA_SRC:-_build/dependencies/resource-algebra/src}"
 test -d "$ra" || { echo "ERROR: resource-algebra sources not found at $ra" >&2; exit 1; }
-flags=(--safe --without-K --no-libraries --ignore-interfaces --double-check -i src -i "$ra")
+flags=(--safe --without-K --cubical-compatible --no-libraries --ignore-interfaces --double-check -i src -i "$ra")
 "$prover" "${flags[@]}" src/Fidelity/All.agda
 mkdir -p _build/check-logs
 shopt -s nullglob

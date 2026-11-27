@@ -1,4 +1,4 @@
-{-# OPTIONS --safe --without-K #-}
+{-# OPTIONS --safe --without-K --cubical-compatible #-}
 -- SPDX-License-Identifier: MPL-2.0 AND CC-BY-SA-4.0
 -- MPL-2.0 (code) and CC-BY-SA-4.0 (prose)
 -- SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell
