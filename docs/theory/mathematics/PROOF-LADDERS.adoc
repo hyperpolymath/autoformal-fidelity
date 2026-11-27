@@ -5,7 +5,7 @@
 
 Five ladders. Each rung is a statement, its status, the Agda name that
 proves it, and what would falsify it. `PROVEN` means the named term is
-accepted by `bash scripts/check-agda.sh` (`--safe --without-K`, no
+accepted by `bash scripts/check-agda.sh` (`--safe --without-K --cubical-compatible`, no
 postulates). `REFUSED` means the false converse is in `tests/reject/` and
 Agda rejects it at the stated declaration. `OPEN` means stated only.
 

@@ -127,7 +127,7 @@ clean-all: clean
 
 # Run the Agda proofs, exactly as CI does (.github/workflows/proofs.yml): fetch
 # resource-algebra at its pinned commit, then check src/Fidelity with
-# --safe --without-K and confirm every tests/reject module is refused.
+# --safe --without-K --cubical-compatible and confirm every tests/reject module is refused.
 # The template's language detection does not know Agda, so this body replaces
 # the provision::test delegation. CI pins Agda 2.6.4.3; set AGDA to choose a binary.
 test:
