@@ -102,7 +102,7 @@ soundness goes through the shared `M`. D-2 and D-3 are the formal case
 for solving at the interface and against a one-directional pipeline.
 They say nothing on how to search; no algorithm is given or claimed.
 
-== Ladder E: stages (`Pipeline.agda`)
+== Ladder E: stages (`Pipeline.agda`, `Cut.agda`)
 
 [cols="1,5,2,3",options="header"]
 |===
@@ -111,7 +111,16 @@ They say nothing on how to search; no algorithm is given or claimed.
 | E-2 | An end-to-end round trip certifies only the first stage free of collapses. | PROVEN `end-to-end-first-no-collapse`, `end-to-end-roundtrip-misses-last-collapse` | —
 | E-3 | End-to-end coverage certifies only the last stage free of additions. | PROVEN `end-to-end-last-covered`, `end-to-end-coverage-misses-first-addition`; converse REFUSED `EndToEndIsStagewise` | —
 | E-4 | A pipeline can be faithful end to end while stage one adds a phantom and stage two collapses it away. | PROVEN `cancelling-faithful`, `stage-one-adds`, `stage-two-collapses` | —
+| E-5 | Forward cut: the composite is free of collapses exactly when stage one is and stage two is on the image of stage one (`ReachCollapse`). | PROVEN `collapse-first`, `collapse-reach`, `no-collapse-join`, `no-collapse-split` | A collapse of the composite with neither a stage-one collapse nor a reach collapse.
+| E-6 | Backward cut: the composite is covered exactly when stage two is covered and stage one is covered up to what stage two tells apart (`CoveredUpTo`). | PROVEN `covered-split`, `covered-join` | A covered composite whose first stage is not covered up to stage two.
+| E-7 | Under the cut-relative reading of E-5 and E-6, the E-4 pipeline has no defect at either stage. The cut-relative audit does not imply the whole-type audit of either stage. | PROVEN `e4-no-reach-collapse`, `e4-covered-up-to`, `e4-reach-misses-whole-type-collapse`, `e4-up-to-misses-whole-type-addition`, `reach-converse-false`, `up-to-converse-false`; converses REFUSED `ReachIsWholeType`, `CoveredUpToIsCovered` | A cut-relative defect in the E-4 pipeline, or a proof of either converse.
 |===
+
+E-5 to E-7 are the zero-loss case of pre-registered statement 2: a stage
+is audited only on what the other stage leaves visible, and then the
+stage audits compose exactly (both directions). E-4 is not a
+counterexample to that reading. Nothing here grades a stage; the graded
+case is open rung 1.
 
 == Against the pre-registration (`docs/pre-registration.adoc`)
 
@@ -119,7 +128,7 @@ They say nothing on how to search; no algorithm is given or claimed.
 |===
 | Statement | Position after this work
 | 1. Additions need the target standpoint | Proven as A-5 and A-6. The falsifier cannot occur under the definition used, so A-6 (factoring) carries the content.
-| 2. Stage accounting is K-CUT-LOSS | Not attempted. E-4 is a warning for it: one addition and one collapse sum to a faithful whole, so any accounting that counts defects per stage disagrees with the global reading. Whether accounting in resource-algebra's `Loss` grade survives E-4 is OPEN and is the first thing to test.
+| 2. Stage accounting is K-CUT-LOSS | Zero-loss case only: E-5 and E-6 prove that the composite is free of collapses and covered exactly when each stage is, read relative to the cut, and E-7 shows E-4 has no cut-relative defect. E-4 still shows that accounting which counts whole-type defects per stage disagrees with the global reading. The graded case in resource-algebra's `Loss` instance is OPEN (open rung 1). Statement 2 is not proven.
 | 3. Verdicts are warrants | The `Warrant` type is not used yet. C-1 and C-3 are its mathematics. *The falsifier as worded is met by C-1* if "unfaithful" means "means something else": round trip and coverage both admit the swap. It is not met if "unfaithful" means "collapses or adds". By owner ruling of 2026-11-27 the falsifier now reads "collapses or adds"; the original wording is kept in a dated note there.
 | 4. Provenance by dependence | Not attempted.
 | 5. Multiple provers | A-7 proves the partition claim and shows agreement follows from the round trip. Independence is not formalised.
@@ -127,7 +136,17 @@ They say nothing on how to search; no algorithm is given or claimed.
 
 == Open rungs, in the order the doctrine gives (holes first)
 
-. Statement 2 in the `Loss` grade, tested against E-4 first.
+. Statement 2 in the `Loss` grade: the GRADED case. The zero-loss case
+  is E-5 to E-7. OPEN, and these facts bear on it:
+.. The cut theorem `kcut-loss` is reported proven upstream in
+   `hyperpolymath/choreographic-types` (`src/Choreographic/KCut.agda`),
+   parametric in the resource algebra. This repository neither imports
+   nor re-checks it.
+.. No definition in this repository gives a stage its `Loss` grade.
+.. A fibre count is not additive for non-uniform fibres. Stage one
+   sends `a`, `b` to `x` and `c` to `y`; stage two sends `x`, `y` to
+   `u`. The stage sums give log 2 + log 2; the whole gives log 3. So the
+   definition of a stage's grade is a design decision for the owner.
 . Ladders A to E up to a source-side equivalence (setoids), so that
   paraphrase is not counted as a collapse.
 . Omission and split for partial and many-valued translators: B gives

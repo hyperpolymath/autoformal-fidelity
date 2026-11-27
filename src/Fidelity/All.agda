@@ -7,3 +7,4 @@ import Fidelity.Meaning
 import Fidelity.Simultaneous
 import Fidelity.Pipeline
 import Fidelity.Additions
+import Fidelity.Cut
