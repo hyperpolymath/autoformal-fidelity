@@ -1,86 +1,185 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 // Template: rsr-template-repo/docs/status/PROOF-STATUS.adoc
-// Tracks proof completion. Requirements defined in PROOF-NEEDS.adoc
-// Only claims that CI verifies appear under "Proofs Done". Verified by .github/workflows/proofs.yml -> scripts/check-agda.sh
+// Tracks proof status. Requirements defined in PROOF-NEEDS.adoc
+// Normative source for tokens and grades: metadatastician/standards, 3-practice/PROOF-POLICY.adoc, sections 2, 2.1, 2.2, 5 and 8.
+// Only claims that CI checks appear as PROVEN. Checked by .github/workflows/proofs.yml -> scripts/check-agda.sh
 = Proof Status — AUTOFORMAL_FIDELITY
 
-== Summary
+Status of `main` at commit `61cc17e4741ea8b0b567fda93d8898f24507e672`
+(2026-11-27). The statements behind the rungs are in
+`docs/theory/mathematics/PROOF-LADDERS.adoc`; this file records their
+status and receipts. Where the two disagree, re-check against the Agda
+source.
 
-[cols="2,1,1,1,1,1", options="header"]
+== Receipt
+
+[cols="1,4", options="header"]
 |===
-| Category | Total | Done | In Progress | Blocked | Remaining
+| Field | Value
 
-| ABI/FFI (ABI) | 5 | 0 | 0 | 0 | 5
-| Typing (TP) | 2 | 0 | 0 | 0 | 2
-| Invariant (INV) | 0 | 0 | 0 | 0 | 0
-| Security (SEC) | 0 | 0 | 0 | 0 | 0
-| Concurrency (CONC) | 0 | 0 | 0 | 0 | 0
-| Algorithm (ALG) | 0 | 0 | 0 | 0 | 0
-| Domain (DOM) | 5 | 5 | 0 | 0 | 0
-| *Total* | *12* | *5* | *0* | *0* | *7*
-|===
-
-*Overall*: 5 of 12 tracked proofs done (42%). The 5 done are the Agda theorems in `src/Fidelity/Crossing.agda`. The 7 remaining are the ABI/FFI and Typing requirements from PROOF-NEEDS.adoc; none of them is present in this repository (see "Proofs Remaining").
-
-== Proofs Done
-
-// Format:
-// | ID | Proof | Prover | File | Date | Verified By
-// Verified By: CI runs `scripts/check-agda.sh` (proofs.yml); locally, `just test` runs the same script.
-
-[cols="1,4,1,3,1,2", options="header"]
-|===
-| ID | Proof | Prover | File | Date | Verified By
-
-| DOM-1 | Theorem 1: a passing round trip rules out collapses. `roundtrip-injective` gives injectivity of `fwd`; `roundtrip-no-collapse` gives `¬ Collapse`. | Agda | `src/Fidelity/Crossing.agda` | 2026-11-14 | `scripts/check-agda.sh` (proofs.yml)
-
-| DOM-2 | Theorem 2 (witness, not a general theorem): `blindspot-roundtrips` shows a passing round trip, and `blindspot-adds` shows the phantom target element has no fibre. This is one computed instance showing that a round trip can pass while the artefact contains an addition. It does not prove that round trips are blind to every addition. | Agda | `src/Fidelity/Crossing.agda` | 2026-11-14 | `scripts/check-agda.sh` (proofs.yml)
-
-| DOM-3 | Theorem 3 (part): `faithful-back` shows that with `RoundTrip` and `Covered`, `fwd (back y) ≡ y` for every target `y`. Together with `RoundTrip` (`back (fwd s) ≡ s`), `fwd` and `back` are mutually inverse. | Agda | `src/Fidelity/Crossing.agda` | 2026-11-14 | `scripts/check-agda.sh` (proofs.yml)
-
-| DOM-4 | Theorem 4 (one direction, unconditional): `source-sees-target` shows that if the source reading agrees on two worlds, so does the target reading. | Agda | `src/Fidelity/Crossing.agda` | 2026-11-14 | `scripts/check-agda.sh` (proofs.yml)
-
-| DOM-5 | Theorem 4 (other direction, given a passing round trip): `target-sees-source` shows that if the target readings agree, the source readings agree. | Agda | `src/Fidelity/Crossing.agda` | 2026-11-14 | `scripts/check-agda.sh` (proofs.yml)
+| Commit | `61cc17e4741ea8b0b567fda93d8898f24507e672` on `main`
+| CI check | `Core proofs and expected rejections` (workflow `Agda proofs`, `.github/workflows/proofs.yml`), conclusion `success` on that commit, completed 2026-11-27T12:51:55Z. Run: https://github.com/hyperpolymath/autoformal-fidelity/actions/runs/45999734605
+| Command | `bash scripts/fetch-siblings.sh && bash scripts/check-agda.sh`
+| Agda | 2.6.4.3, pinned: `agda-bin=2.6.4.3-1+b2` in container `debian:trixie-slim` (workflow step fails unless `agda --version` is `Agda version 2.6.4.3`). The container image is named by tag, not by digest.
+| Flags in force | `--safe --without-K --no-libraries --ignore-interfaces --double-check -i src -i <resource-algebra>/src`. Each `.agda` file also carries `{-# OPTIONS --safe --without-K #-}`.
+| Not in force | `--cubical-compatible` (see "Proof Witness Grade")
+| Standard library | None. `--no-libraries`; the import cone is `Fidelity.*`, `ResourceAlgebra.Prelude` and four `Agda.Builtin` modules (`Nat`, `Equality`, `Unit`, `Sigma`).
+| resource-algebra pin | `b2c9f1f6bc7ed7cc83c7573014cdf88d49d2a881` (`scripts/fetch-siblings.sh`)
+| Escape hatches | None found in `src/` or `tests/reject/`: no `postulate`, no `primTrustMe`, no `TERMINATING` or other unsafe pragma. The only `ResourceAlgebra.Prelude` imports are `Agda.Builtin` modules.
 |===
 
-=== Negative control (not a theorem, not counted above)
+Wording rule for this file: "checked" or "verified" is used only against
+the receipt above.
 
-`tests/reject/RoundTripIsFidelity.agda` states that a passing round trip implies coverage. That claim is false, so the module must fail to check. `scripts/check-agda.sh` passes only if the module is refused at its declaration with a checked error. It is a control that the checker rejects the translator's fallacy. It proves nothing about the artefact.
+== Census
 
-== Proofs In Progress
+Counts of the rows in this file, by §5 status token. Each row is counted
+once. The denominator is the number of rows listed here: 41. It is not an
+estimate of the work a complete treatment would need, and no ratio is
+drawn from it.
 
-[cols="1,3,1,2,1,2", options="header"]
+[cols="3,1,1,1,1", options="header"]
 |===
-| ID | Proof | Prover | Assignee | Started | Blocker
+| Group | PROVEN | TESTED | OPEN | Rows
 
-| — | — | — | — | — | —
+| Ladder rungs A-1..E-4 (Agda theorems) | 26 | 0 | 0 | 26
+| Expected rejections (`tests/reject/`) | 0 | 4 | 0 | 4
+| Open rungs named in `PROOF-LADDERS.adoc` | 0 | 0 | 4 | 4
+| Requirements in `PROOF-NEEDS.adoc` with no file in this repository | 0 | 0 | 7 | 7
+| *Total* | *26* | *4* | *11* | *41*
 |===
 
-== Proofs Blocked
+The five pre-registered statements are tabulated separately below. They
+overlap the rows above, so they are not added to this census.
 
-[cols="1,3,2,3", options="header"]
+== Proof Witness Grade
+
+Every theorem in this file is `ungraded`.
+
+Reason: policy §8.2 gives `PWG-3` only to an Agda proof checked under the
+§2.1 invocation, `agda --safe --without-K --cubical-compatible`. This
+repository's check does not pass `--cubical-compatible`. §2.1 says that
+earlier `--safe --without-K` successes are historical evidence, not
+receipts for the combined profile. No Rocq or Lean recheck leg (§2) exists
+either, so nothing here can reach `PWG-2i`, `PWG-2ii` or `PWG-1`.
+
+No row below carries a grade, and none should be read as one.
+
+== Ladder rungs (Agda)
+
+Status token for every row: `PROVEN` (§5). The receipt above covers each
+named theorem, because `src/Fidelity/All.agda` imports all six modules.
+Each theorem name was found in its module with a type signature, and the
+whole development was also re-run on 2026-11-27 with a local Agda 2.6.3.
+That local run is not the pinned version and is not a receipt.
+
+[cols="1,5,1,2,4,1", options="header"]
 |===
-| ID | Proof | Blocked By | Notes
+| Rung | Claim | Token | Module | Theorem(s) | PWG
 
-| — | — | — | —
+| A-1 | A passing round trip rules out collapses. | PROVEN | `Crossing.agda` | `roundtrip-injective`, `roundtrip-no-collapse` | ungraded
+| A-2 | A round trip can pass while the artefact has an element with no fibre. One computed instance, not a statement about every crossing. | PROVEN | `Crossing.agda` | `blindspot-roundtrips`, `blindspot-adds` | ungraded
+| A-3 | Round trip plus coverage gives a two-sided inverse. | PROVEN | `Crossing.agda` | `faithful-back` | ungraded
+| A-4 | The source standpoint sees whatever the target sees; the target sees whatever the source sees when the round trip passes. | PROVEN | `Crossing.agda` | module `Standpoints`: `source-sees-target`, `target-sees-source` | ungraded
+| A-5 | An addition is a pair of worlds the source reads alike and the target reads apart; it is invisible from the source and refutes "the target sees no more". | PROVEN | `Additions.agda` | `addition-invisible-from-source`, `addition-pair-refutes`, `blindspot-addition-pair` | ungraded
+| A-6 | The target sees no more than the source exactly when the target reading factors through the source reading. | PROVEN | `Additions.agda` | `factors-no-addition`, `no-addition-factors` | ungraded
+| A-7 | Two provers that each pass the round trip induce the same partition of the worlds. | PROVEN | `Additions.agda` | module `TwoProvers`: `agree-₁₂`, `agree-₂₁` | ungraded
+| B-1 | Read from the other side, addition is omission and split is collapse. | PROVEN | `Interface.agda` | `one-to-one˘` and the four lemmas before it (`onto-is-entire˘`, `entire-is-onto˘`, `functional-is-injective˘`, `injective-is-functional˘`) | ungraded
+| B-2 | The graph of a crossing is entire and functional, so a function pair cannot express an omission or a split. | PROVEN | `Interface.agda` | `graph-entire`, `graph-functional` | ungraded
+| B-3 | A faithful crossing has a one-to-one graph. | PROVEN | `Interface.agda` | `faithful-one-to-one` | ungraded
+| B-4 | A one-to-one correspondence is a faithful crossing whose graph is that correspondence. | PROVEN | `Interface.agda` | `crossing-of-faithful`, `graph-to-corr`, `corr-to-graph` | ungraded
+| B-5 | The agreement relation is injective and functional for every crossing; entire exactly when the round trip passes, onto exactly when the opposite round trip passes. | PROVEN | `Interface.agda` | `agree-injective`, `agree-functional`, `agree-entire-roundtrip`, `roundtrip-agree-entire`, `agree-onto-section`, `section-agree-onto` | ungraded
+| C-1 | A crossing can pass round trip and coverage and be unsound at every element. | PROVEN | `Meaning.agda` | `swap-faithful`, `swap-unsound-everywhere` | ungraded
+| C-2 | Two sound directions round-trip up to meaning. | PROVEN | `Meaning.agda` | `sound-roundtrip`, `sound-section` | ungraded
+| C-3 | Warrant transfer: with a round trip that passes up to meaning, soundness of one direction gives soundness of the other. | PROVEN | `Meaning.agda` | `transfer-fwd`, `transfer-back` | ungraded
+| C-4 | With an injective target reading, a sound forward direction is unique. | PROVEN | `Meaning.agda` | `sound-unique` | ungraded
+| C-5 | Soundness belongs to the crossing together with the two readings: the swap is sound for the swapped reading. | PROVEN | `Meaning.agda` | `swap-sound-for-flipped-reading` | ungraded
+| D-1 | The joint problem is symmetric: a solution is a forward completion of an admissible reading and a backward completion of a well-formed term. | PROVEN | `Simultaneous.agda` | `forward-solves`, `backward-solves`, `solution-forward`, `solution-backward`, `solution-viable`, `solution-realisable` | ungraded
+| D-2 | Committing to a reading before consulting the target is incomplete. | PROVEN | `Simultaneous.agda` | `joint-solution`, `commit-reading-fails` | ungraded
+| D-3 | Committing to a term first is incomplete. | PROVEN | `Simultaneous.agda` | `joint-solution'`, `commit-term-fails` | ungraded
+| D-4 | The meaning relation is functional when the target reading is injective, injective when the source reading is. | PROVEN | `Simultaneous.agda` | `means-functional`, `means-injective` | ungraded
+| D-5 | A one-to-one meaning relation yields a crossing that is faithful and sound in both directions. | PROVEN | `Simultaneous.agda` | `solved-faithful`, `solved-fwd-sound`, `solved-back-sound` | ungraded
+| E-1 | Round trip composes; coverage composes. | PROVEN | `Pipeline.agda` | `roundtrip-⨾`, `covered-⨾` | ungraded
+| E-2 | An end-to-end round trip certifies only that the first stage has no collapse. | PROVEN | `Pipeline.agda` | `end-to-end-first-no-collapse`, `end-to-end-roundtrip-misses-last-collapse` | ungraded
+| E-3 | End-to-end coverage certifies only that the last stage has no addition. | PROVEN | `Pipeline.agda` | `end-to-end-last-covered`, `end-to-end-coverage-misses-first-addition` | ungraded
+| E-4 | A pipeline can be faithful end to end while stage one adds a phantom and stage two collapses it away. | PROVEN | `Pipeline.agda` | `cancelling-faithful`, `stage-one-adds`, `stage-two-collapses` | ungraded
 |===
 
-== Proofs Remaining
+`Faithful` in `Crossing.agda` means a structural bijection only. C-1 shows
+it does not imply soundness. The meaning space `M` of ladders C and D is a
+parameter: the proofs say what follows if both sides are read into one
+`M`, not how an informal text is read.
 
-These are the requirements from PROOF-NEEDS.adoc that are still unmet. None of these files exists in this repository. The ledger previously named modules (`src/interface/`, `build/container`) that were removed in PR #10. The Idris2 and Lean4 files named below are requirement paths, not present files. The pinned toolchain in proofs.yml is Agda only.
+== Expected rejections
 
-[cols="1,3,1,1,1,1", options="header"]
+Each module states a false converse. `scripts/check-agda.sh` passes only if
+Agda refuses the module at its `invalid` declaration with a checked error
+(`when checking that …`), and not for a scope, parse or unsolved-metavariable
+reason. The same run covers all four (receipt above).
+
+Token `TESTED` (§5): these are refusal controls, not theorems. They show
+that the checker rejects the stated claim; they prove nothing about an
+artefact, and they are not counted as witnesses or graded (§8.5.4).
+
+[cols="3,1,4,2", options="header"]
 |===
-| ID | Proof | Category | Prover | Priority | Est. Effort
+| File | Token | False claim refused | Rung
 
-| ABI-1 | Non-null pointer proofs | ABI | Idris2 | P1 | 2h
-| ABI-2 | Memory layout correctness | ABI | Idris2 | P1 | 4h
-| ABI-3 | Platform type size proofs | ABI | Idris2 | P1 | 2h
-| ABI-4 | FFI function return type proofs | ABI | Idris2 | P1 | 2h
-| ABI-5 | C ABI compliance | ABI | Idris2 | P1 | 4h
-| TP-1 | Core data type well-formedness | TP | Idris2 | P1 | 4h
-| TP-2 | Public API type safety | TP | Lean4 | P2 | 4h
+| `tests/reject/RoundTripIsFidelity.agda` | TESTED | A passing round trip implies coverage (the translator's fallacy). | A-2
+| `tests/reject/RoundTripIsSound.agda` | TESTED | A passing round trip implies the translation preserves meaning. | C-1
+| `tests/reject/CommittedReadingIsComplete.agda` | TESTED | A joint solution completes whichever admissible reading was committed first. | D-2
+| `tests/reject/EndToEndIsStagewise.agda` | TESTED | End-to-end coverage implies coverage of the first stage. | E-3
+|===
+
+== Open rungs
+
+Stated in `PROOF-LADDERS.adoc`, not proved. Token `OPEN` (§5).
+
+[cols="1,5,1", options="header"]
+|===
+| # | Statement | Token
+
+| 1 | Pre-registered statement 2 in resource-algebra's `Loss` grade, tested first against E-4. | OPEN
+| 2 | Ladders A to E up to a source-side equivalence (setoids), so that paraphrase is not counted as a collapse. | OPEN
+| 3 | Omission and split for partial and many-valued translators: no theorem yet connects the definitions in `Interface.agda` to standpoints. | OPEN
+| 4 | Pre-registered statements 3 and 4 in the sibling families' own types (`Warrant`, `Dependent`). | OPEN
+|===
+
+== Pre-registered statements
+
+From `docs/pre-registration.adoc` (not changed by this file). The F-1 to
+F-4 claims delivered at the time of registration are rungs A-1 to A-4.
+
+[cols="1,3,1,5", options="header"]
+|===
+| # | Statement | Token | State
+
+| 1 | Additions need the target standpoint. | PROVEN | Rungs A-5 and A-6. The stated falsifier ("an addition visible from the source standpoint") cannot occur under the definition used, so A-6 carries the content.
+| 2 | Stage accounting is K-CUT-LOSS. | OPEN | Not attempted. E-4 is a warning for it: one addition and one collapse can sum to a faithful whole.
+| 3 | Verdicts are warrants, not knowledge. | OPEN | The `Warrant` type is not used. C-1 and C-3 supply its mathematics only. The falsifier was reworded by owner ruling of 2026-11-27 to "collapses or adds"; the original wording, "admits an unfaithful crossing", is met by C-1 if "unfaithful" means "means something else".
+| 4 | Provenance by dependence. | OPEN | Not attempted.
+| 5 | Multiple provers. | PROVEN for the partition claim, OPEN for independence | A-7 proves that provers that each pass the round trip agree on the partition, and that this agreement follows from the round trip alone. Independence of the provers is not formalised.
+|===
+
+== Requirements without a file here
+
+These come from `PROOF-NEEDS.adoc` (the template's mandatory list). None of
+the named files exists in this repository: the modules the ledger once named
+(`src/interface/`, `build/container`) were removed in PR #10. The Idris2 and
+Lean4 files are requirement paths, not present files. Token `OPEN` (§5).
+
+[cols="1,3,1,1", options="header"]
+|===
+| ID | Requirement | Category | Prover named
+
+| ABI-1 | Non-null pointer proofs | ABI | Idris2
+| ABI-2 | Memory layout correctness | ABI | Idris2
+| ABI-3 | Platform type size proofs | ABI | Idris2
+| ABI-4 | FFI function return type proofs | ABI | Idris2
+| ABI-5 | C ABI compliance | ABI | Idris2
+| TP-1 | Core data type well-formedness | TP | Idris2
+| TP-2 | Public API type safety | TP | Lean4
 |===
 
 == Verification Commands
@@ -102,4 +201,5 @@ just test
 
 | 2026-04-04 | Initial proof status tracking | Template
 | 2026-11-14 | Replaced the template placeholder with the Agda theorems that CI verifies (DOM-1..5). Removed the ABI/Typing "Done" placeholders and the nonexistent proof recipes. Totals now match the rows. | Claude Code session
+| 2026-11-27 | Rewritten for commit `61cc17e`: one row for each of the 26 rungs of `PROOF-LADDERS.adoc` (the former DOM-1..5 are A-1..A-4 in `Crossing.agda`), the four expected rejections, the open rungs, the pre-registered statements, a receipt, a census with its denominator, and the Proof Witness Grade position. Percentage removed. | Claude Code session
 |===
