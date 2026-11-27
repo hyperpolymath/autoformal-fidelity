@@ -17,6 +17,9 @@ Agda rejects it at the stated declaration. `OPEN` means stated only.
   the reading of an informal text. That reading stays belief.
 * All equalities are propositional equality on plain sets. Fidelity up to
   a source-side indifference (paraphrase) needs a setoid version: OPEN.
+* `Faithful` in `Crossing.agda` means a structural bijection only. The
+  name is kept by owner ruling of 2026-11-27 and the definition carries a
+  note; C-1 shows it does not imply soundness.
 * The interface mathematics is stated without reference to any analogy.
   The biological analogy from the earlier discussion is not recorded in
   this repository, so no mapping to it is claimed here.
@@ -124,9 +127,6 @@ They say nothing on how to search; no algorithm is given or claimed.
 
 == Open rungs, in the order the doctrine gives (holes first)
 
-. `Faithful` in `Crossing.agda` names a structural bijection. C-1 shows
-  the name promises more than the definition holds. Renaming is a
-  boundary decision and is left to the owner.
 . Statement 2 in the `Loss` grade, tested against E-4 first.
 . Ladders A to E up to a source-side equivalence (setoids), so that
   paraphrase is not counted as a collapse.

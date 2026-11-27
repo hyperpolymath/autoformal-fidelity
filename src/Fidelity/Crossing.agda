@@ -53,6 +53,10 @@ module _ {S T : Set} (c : Crossing S T) where
 
   -- Theorem 3: round trip plus coverage is a bijection (back is a two-sided
   -- inverse), i.e. the crossing is faithful in both directions.
+  --
+  -- `Faithful` means a STRUCTURAL bijection only: nothing collapses and
+  -- nothing is added.  It says nothing about meaning.  A crossing can be
+  -- Faithful and mistranslate every element (Fidelity.Meaning, C-1).
   Faithful : Set
   Faithful = RoundTrip × Covered
 
