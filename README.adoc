@@ -21,6 +21,10 @@ statements with falsifiers: link:docs/pre-registration.adoc[]. Sibling:
 hyperpolymath/resource-algebra (Agda, same kernel; pin in `scripts/fetch-siblings.sh`).
 Gate: `bash scripts/check-agda.sh`.
 
+Further ladders (interface as a correspondence, meaning, solving both
+sides at once, stages), with every rung's status and falsifier:
+link:docs/theory/mathematics/PROOF-LADDERS.adoc[].
+
 // ---- RSR template sections below; swept by `just repo-init` ----
 :toc:
 :toc-placement: preamble

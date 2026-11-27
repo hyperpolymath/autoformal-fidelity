@@ -222,10 +222,8 @@ your own repo - but do not read their emptiness as neglect here.
 | `docs/reports/quality/`
 | `docs/reports/security/`
 | `docs/standards/`
-| `docs/theory/`
 | `docs/theory/computing/`
 | `docs/theory/formalisms/`
-| `docs/theory/mathematics/`
 | `docs/theory/ontologies/`
 | `docs/theory/other/`
 | `docs/theory/socio-technical/`
