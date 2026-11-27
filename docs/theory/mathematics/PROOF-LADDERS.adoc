@@ -117,14 +117,13 @@ They say nothing on how to search; no algorithm is given or claimed.
 | Statement | Position after this work
 | 1. Additions need the target standpoint | Proven as A-5 and A-6. The falsifier cannot occur under the definition used, so A-6 (factoring) carries the content.
 | 2. Stage accounting is K-CUT-LOSS | Not attempted. E-4 is a warning for it: one addition and one collapse sum to a faithful whole, so any accounting that counts defects per stage disagrees with the global reading. Whether accounting in resource-algebra's `Loss` grade survives E-4 is OPEN and is the first thing to test.
-| 3. Verdicts are warrants | The `Warrant` type is not used yet. C-1 and C-3 are its mathematics. *The falsifier as worded is met by C-1* if "unfaithful" means "means something else": round trip and coverage both admit the swap. It is not met if "unfaithful" means "collapses or adds". The wording needs the owner's ruling; it has not been edited.
+| 3. Verdicts are warrants | The `Warrant` type is not used yet. C-1 and C-3 are its mathematics. *The falsifier as worded is met by C-1* if "unfaithful" means "means something else": round trip and coverage both admit the swap. It is not met if "unfaithful" means "collapses or adds". By owner ruling of 2026-11-27 the falsifier now reads "collapses or adds"; the original wording is kept in a dated note there.
 | 4. Provenance by dependence | Not attempted.
 | 5. Multiple provers | A-7 proves the partition claim and shows agreement follows from the round trip. Independence is not formalised.
 |===
 
 == Open rungs, in the order the doctrine gives (holes first)
 
-. Rule on the wording of pre-registered statement 3 (above).
 . `Faithful` in `Crossing.agda` names a structural bijection. C-1 shows
   the name promises more than the definition holds. Renaming is a
   boundary decision and is left to the owner.

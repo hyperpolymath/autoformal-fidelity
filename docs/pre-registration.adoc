@@ -38,8 +38,14 @@ the residue of belief can be made honest about being belief.
 . *Verdicts are warrants, not knowledge.* The fidelity verdict as an
   epistemic-types `Warrant`; the structural checks (F-1..F-3) are its
   type-determined, sound part; "this statement means that claim" has no
-  `sound` field. Falsifier: a structural check that admits an unfaithful
-  crossing.
+  `sound` field. Falsifier: a structural check that admits a crossing
+  that collapses or adds.
++
+_Reworded 2026-11-27 by owner ruling._ The falsifier first read "a
+structural check that admits an unfaithful crossing". Read as "means
+something else", that wording is met by the swap crossing
+(`Fidelity.Meaning`, C-1), which passes round trip and coverage. The
+statement was always about structure, so the falsifier now says so.
 . *Provenance by dependence.* Each verdict names the source passages it
   rests on (residual-evidence `Dependent`); an erratum retracts exactly
   the verdicts resting on it. Falsifier: a verdict unaffected by
