@@ -1,0 +1,137 @@
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+= autoformal-fidelity: the proof ladders (2026-11-27)
+:toc: left
+
+Five ladders. Each rung is a statement, its status, the Agda name that
+proves it, and what would falsify it. `PROVEN` means the named term is
+accepted by `bash scripts/check-agda.sh` (`--safe --without-K`, no
+postulates). `REFUSED` means the false converse is in `tests/reject/` and
+Agda rejects it at the stated declaration. `OPEN` means stated only.
+
+== Scope and limits, stated first
+
+* Semantic fidelity is not decidable. Nothing here decides it.
+* The meaning space `M` of ladders C and D is a parameter. The proofs say
+  what follows *if* both sides are read into one `M`; they do not supply
+  the reading of an informal text. That reading stays belief.
+* All equalities are propositional equality on plain sets. Fidelity up to
+  a source-side indifference (paraphrase) needs a setoid version: OPEN.
+* The interface mathematics is stated without reference to any analogy.
+  The biological analogy from the earlier discussion is not recorded in
+  this repository, so no mapping to it is claimed here.
+
+== Ladder A: crossings and standpoints (`Crossing.agda`, `Additions.agda`)
+
+[cols="1,5,2,3",options="header"]
+|===
+| Rung | Statement | Status | Falsifier
+| A-1 | A passing round trip rules out collapses. | PROVEN `roundtrip-injective`, `roundtrip-no-collapse` | A collapse under a passing round trip.
+| A-2 | A round trip can pass while the artefact has an element with no fibre. | PROVEN `blindspot-roundtrips`, `blindspot-adds`; converse REFUSED `RoundTripIsFidelity` | Round trip implying coverage.
+| A-3 | Round trip plus coverage is a two-sided inverse. | PROVEN `faithful-back` | A faithful crossing with `fwd (back y) ≢ y`.
+| A-4 | The source always sees what the target sees; the target sees what the source sees when the round trip passes. | PROVEN `Standpoints` | A loss invisible to the source.
+| A-5 | An addition is a pair of worlds the source reads alike and the target reads apart. It is invisible from the source and refutes "the target sees no more". | PROVEN `addition-invisible-from-source`, `addition-pair-refutes`, `blindspot-addition-pair` | An addition visible from the source standpoint. By the definition there is none; the content is A-6.
+| A-6 | The target sees no more than the source exactly when the target reading factors through the source reading (every source value being read from some world). | PROVEN `factors-no-addition`, `no-addition-factors` | A non-factoring target reading with no addition pair.
+| A-7 | Two provers that each pass the round trip induce the same partition of the worlds. | PROVEN `agree-₁₂`, `agree-₂₁` | Two round-tripping provers that partition differently.
+|===
+
+A-7 has a consequence worth stating plainly: agreement of partitions is
+*implied* by the structural check. It is not extra evidence about
+meaning. C-1 gives two crossings that agree and of which one is wrong.
+
+== Ladder B: the interface as a correspondence (`Interface.agda`)
+
+A crossing is a pair of functions, so one side is solved first. A
+correspondence `R : S → T → Set` privileges neither. It has four defects
+in two mirror pairs: omission and addition, collapse and split.
+
+[cols="1,5,2,3",options="header"]
+|===
+| Rung | Statement | Status | Falsifier
+| B-1 | Read from the other side, addition is omission and split is collapse. | PROVEN `one-to-one˘` and the four lemmas before it (definitional) | An asymmetric defect.
+| B-2 | The graph of a crossing is entire and functional whatever the crossing is: a function pair cannot express an omission or a split. | PROVEN `graph-entire`, `graph-functional` | A crossing whose graph omits or splits.
+| B-3 | A faithful crossing has a one-to-one graph. | PROVEN `faithful-one-to-one` | —
+| B-4 | A one-to-one correspondence is a faithful crossing, whose graph is that correspondence. | PROVEN `crossing-of-faithful`, `graph-to-corr`, `corr-to-graph` | A one-to-one correspondence with no faithful crossing.
+| B-5 | The agreement relation (both directions hold at once) is injective and functional for every crossing. It is entire exactly when the round trip passes, onto exactly when the opposite round trip passes. | PROVEN `agree-injective`, `agree-functional`, `agree-entire-roundtrip`, `agree-onto-section`, and converses | A crossing whose agreement relation collapses or splits.
+|===
+
+B-2 is a limit of the existing `Crossing` record: two of the four defects
+are outside what it can state. B-5 says the two-sided reading has only
+the two defects that the one-sided checks miss between them.
+
+== Ladder C: meaning (`Meaning.agda`)
+
+Both sides read into one `M`. A crossing is sound when translation
+preserves the reading.
+
+[cols="1,5,2,3",options="header"]
+|===
+| Rung | Statement | Status | Falsifier
+| C-1 | A crossing can pass round trip and coverage and be unsound at every element. | PROVEN `swap-faithful`, `swap-unsound-everywhere`; converse REFUSED `RoundTripIsSound` | A structural check that implies soundness.
+| C-2 | Two sound directions round-trip up to meaning. | PROVEN `sound-roundtrip`, `sound-section` | —
+| C-3 | Warrant transfer: given a round trip that passes up to meaning, the forward direction is sound if the back direction is. Mirror image likewise. | PROVEN `transfer-fwd`, `transfer-back` | A sound back-translation and a passing round trip with an unsound forward translation.
+| C-4 | With an injective target reading, a sound forward direction is unique. | PROVEN `sound-unique` | Two different sound translations into an unambiguous target.
+| C-5 | Soundness belongs to the crossing together with the two readings: the swap is sound for the swapped reading. | PROVEN `swap-sound-for-flipped-reading` | —
+|===
+
+C-3 is the exact content of the translator's test: it moves trust from
+the back-translator to the translator and creates none. C-1 says that
+with no trusted direction the test certifies nothing about meaning.
+
+== Ladder D: solving both sides at once (`Simultaneous.agda`)
+
+The source side offers readings, some admissible (`A`). The target side
+offers terms, some well formed (`W`). A solution is a reading and a term,
+each acceptable on its own side, with the same meaning.
+
+[cols="1,5,2,3",options="header"]
+|===
+| Rung | Statement | Status | Falsifier
+| D-1 | The joint problem is symmetric: a solution is a forward completion of some admissible reading and a backward completion of some well-formed term. Each side prunes the other. | PROVEN `forward-solves`, `backward-solves`, `solution-forward`, `solution-backward`, `solution-viable`, `solution-realisable` | A solution reachable from one side only.
+| D-2 | Committing to a reading before consulting the target is incomplete. | PROVEN `joint-solution`, `commit-reading-fails`; converse REFUSED `CommittedReadingIsComplete` | Every admissible reading completing whenever a solution exists.
+| D-3 | Committing to a term first is incomplete. | PROVEN `joint-solution'`, `commit-term-fails` | —
+| D-4 | The meaning relation is functional when the target reading is injective, injective when the source reading is. | PROVEN `means-functional`, `means-injective` | —
+| D-5 | When the meaning relation is one-to-one it yields a crossing that is faithful and sound in both directions. | PROVEN `solved-faithful`, `solved-fwd-sound`, `solved-back-sound` | A one-to-one meaning relation with no sound faithful crossing.
+|===
+
+D-5 joins ladders B, C and D: the only route here from structure to
+soundness goes through the shared `M`. D-2 and D-3 are the formal case
+for solving at the interface and against a one-directional pipeline.
+They say nothing on how to search; no algorithm is given or claimed.
+
+== Ladder E: stages (`Pipeline.agda`)
+
+[cols="1,5,2,3",options="header"]
+|===
+| Rung | Statement | Status | Falsifier
+| E-1 | Round trip composes; coverage composes. | PROVEN `roundtrip-⨾`, `covered-⨾` | —
+| E-2 | An end-to-end round trip certifies only the first stage free of collapses. | PROVEN `end-to-end-first-no-collapse`, `end-to-end-roundtrip-misses-last-collapse` | —
+| E-3 | End-to-end coverage certifies only the last stage free of additions. | PROVEN `end-to-end-last-covered`, `end-to-end-coverage-misses-first-addition`; converse REFUSED `EndToEndIsStagewise` | —
+| E-4 | A pipeline can be faithful end to end while stage one adds a phantom and stage two collapses it away. | PROVEN `cancelling-faithful`, `stage-one-adds`, `stage-two-collapses` | —
+|===
+
+== Against the pre-registration (`docs/pre-registration.adoc`)
+
+[cols="1,6",options="header"]
+|===
+| Statement | Position after this work
+| 1. Additions need the target standpoint | Proven as A-5 and A-6. The falsifier cannot occur under the definition used, so A-6 (factoring) carries the content.
+| 2. Stage accounting is K-CUT-LOSS | Not attempted. E-4 is a warning for it: one addition and one collapse sum to a faithful whole, so any accounting that counts defects per stage disagrees with the global reading. Whether accounting in resource-algebra's `Loss` grade survives E-4 is OPEN and is the first thing to test.
+| 3. Verdicts are warrants | The `Warrant` type is not used yet. C-1 and C-3 are its mathematics. *The falsifier as worded is met by C-1* if "unfaithful" means "means something else": round trip and coverage both admit the swap. It is not met if "unfaithful" means "collapses or adds". The wording needs the owner's ruling; it has not been edited.
+| 4. Provenance by dependence | Not attempted.
+| 5. Multiple provers | A-7 proves the partition claim and shows agreement follows from the round trip. Independence is not formalised.
+|===
+
+== Open rungs, in the order the doctrine gives (holes first)
+
+. Rule on the wording of pre-registered statement 3 (above).
+. `Faithful` in `Crossing.agda` names a structural bijection. C-1 shows
+  the name promises more than the definition holds. Renaming is a
+  boundary decision and is left to the owner.
+. Statement 2 in the `Loss` grade, tested against E-4 first.
+. Ladders A to E up to a source-side equivalence (setoids), so that
+  paraphrase is not counted as a collapse.
+. Omission and split for partial and many-valued translators: B gives
+  the definitions; no theorem yet connects them to standpoints.
+. Statements 3 and 4 in the sibling families' own types (`Warrant`,
+  `Dependent`).
